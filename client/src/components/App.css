@@ -47,3 +47,15 @@ textarea {
   color: red;
   cursor: pointer;
 }
+
+.button-primary.disabled-button {
+  cursor: default;
+  opacity: .75;
+  background-color: #ccc;
+  border-color: #ccc;
+}
+
+.button-primary.disabled-button:hover {
+  background-color: #ccc;
+  border-color: #ccc;
+}

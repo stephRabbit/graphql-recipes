@@ -36,7 +36,9 @@ exports.typeDefs = `
       username: String!
     ): Recipe
 
-    signupUser(
+    signInUser(username: String!, password: String!):Token
+
+    signUpUser(
       username: String!,
       email: String!,
       password: String!

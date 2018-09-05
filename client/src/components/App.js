@@ -9,7 +9,12 @@ const App = () => {
     <div className="App">
       <h1>Home</h1>
       <Query query={GET_ALL_RECIPES}>
-        {/* {Render props function} */}
+        {
+         /**
+          * @param {object} query - result containing:
+          * { data, called, loading, error }
+          */
+        }
         {({ data, loading, error }) => {
           if (loading) return <div>Loading</div>
           if (error) return <div>Error</div>

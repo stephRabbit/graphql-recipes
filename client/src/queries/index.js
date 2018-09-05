@@ -1,5 +1,6 @@
 import { gql } from 'apollo-boost'
 
+// User queries
 export const GET_ALL_RECIPES = gql`
   query {
     getAllRecipes {
@@ -13,3 +14,5 @@ export const GET_ALL_RECIPES = gql`
     }
   }
 `
+
+// Recipe queries
