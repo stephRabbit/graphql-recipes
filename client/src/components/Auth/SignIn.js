@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 
 import { SIGN_IN_USER } from '../../mutations'
@@ -22,9 +23,12 @@ class SignIn extends Component {
 
   handleSubmit = signInUser => e => {
     e.preventDefault()
-    signInUser().then(data => {
-      console.log(data)
+    signInUser().then(async ({ data: { signInUser } }) => {
+      console.log('signInUser ', signInUser.token)
+      localStorage.setItem('token', signInUser.token)
+      await this.props.refetch()
       this.clearState()
+      this.props.history.push('/')
     })
   }
 
@@ -45,12 +49,13 @@ class SignIn extends Component {
         >
           {
            /**
-            * @param {function} 'signInUser' - mutate function
+            * @param {function} signInUser - mutate function
             * @param {object} mutation result containing:
             * { data, called, loading, error }
             */
           }
           {(signInUser, { data, loading, error, }) => {
+            const disabledStatus = loading || this.validateForm()
             return (
               <form
                 className="form"
@@ -71,12 +76,8 @@ class SignIn extends Component {
                   value={password}
                 />
                 <button
-                  className={
-                    loading || this.validateForm()
-                      ? 'button-primary  disabled-button'
-                      : 'button-primary'
-                  }
-                  disabled={loading || this.validateForm()}
+                  className={disabledStatus ? 'button-primary disabled-button' : 'button-primary'}
+                  disabled={disabledStatus}
                   type="submit"
                 >
                   Submit
@@ -91,4 +92,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn
+export default withRouter(SignIn)

@@ -20,7 +20,11 @@ exports.typeDefs = `
   }
 
   type Query {
+    # @return - Recipe[]
     getAllRecipes: [Recipe]
+
+    # @return - User
+    getCurrentUser: User
   }
 
   type Token {

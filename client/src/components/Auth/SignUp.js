@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 
 import { SIGN_UP_USER } from '../../mutations'
@@ -24,9 +25,12 @@ class SignUp extends Component {
 
   handleSubmit = signUpUser => e => {
     e.preventDefault()
-    signUpUser().then(data => {
-      console.log(data)
+    signUpUser().then(async ({ data: { signUpUser } }) => {
+      console.log('signUpUser ', signUpUser.token)
+      localStorage.setItem('token', signUpUser.token)
+      await this.props.refetch()
       this.clearState()
+      this.props.history.push('/')
     })
   }
 
@@ -53,6 +57,7 @@ class SignUp extends Component {
             */
           }
           {(signUpUser, { data, loading, error, }) => {
+            const disabledStatus = loading || this.validateForm()
             return (
               <form
                 className="form"
@@ -87,12 +92,8 @@ class SignUp extends Component {
                   value={passwordComfirmation}
                 />
                 <button
-                  className={
-                    loading || this.validateForm()
-                      ? 'button-primary  disabled-button'
-                      : 'button-primary'
-                  }
-                  disabled={loading || this.validateForm()}
+                  className={disabledStatus ? 'button-primary disabled-button' : 'button-primary'}
+                  disabled={disabledStatus}
                   type="submit"
                 >
                   Submit
@@ -107,4 +108,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp
+export default withRouter(SignUp)

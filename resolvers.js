@@ -3,26 +3,39 @@ const bcrypt = require('bcrypt')
 
 const createToken = (user, secret, expiresIn) => {
   const { username, email } = user
-  return jwt.sign({ username, email }, secret, { expiresIn })
+  return jwt.sign({ username, email, }, secret, { expiresIn, })
 }
 
 exports.resolvers = {
   Query: {
     /**
-     * @param {*} - root (parent)
+     * @param {object} - root { previous object(parent value) }
      * @param {object} - args { ...args }
      * @param {object} - context { ...Model }
      */
-    getAllRecipes: async (root, args, { Recipe }) => {
+    getAllRecipes: async (root, args, { Recipe, }) => {
       const allRecipes = await Recipe.find()
 
       return allRecipes
-    }
+    },
+
+    getCurrentUser: async (root, args, { currentUser, User, }) => {
+      if (!currentUser) return null
+
+      const user = await User.findOne({ username: currentUser.username, })
+        // Inject Recipe model in favorites[]
+        .populate({
+          path: 'favorites',
+          model: 'Recipe',
+        })
+
+      return user
+    },
   },
 
   Mutation: {
     /**
-     * @param {object} - root { previous object }
+     * @param {object} - root { previous object(parent value) }
      * @param {object} - args { ...args }
      * @param {object} - context Model { Recipe }
      */
@@ -32,7 +45,7 @@ exports.resolvers = {
       description,
       instructions,
       username
-    }, { Recipe }) => {
+    }, { Recipe, }) => {
       const newRecipe = await new Recipe({
         name,
         category,
@@ -53,8 +66,8 @@ exports.resolvers = {
     signInUser: async (root, {
       username,
       password
-    }, { User }) => {
-      const user = await User.findOne({ username })
+    }, { User, }) => {
+      const user = await User.findOne({ username, })
 
       if (!user) {
         throw new Error('Sorry, user not found!')
@@ -76,8 +89,8 @@ exports.resolvers = {
       username,
       email,
       password,
-    }, { User }) => {
-      const user = await User.findOne({ username })
+    }, { User, }) => {
+      const user = await User.findOne({ username, })
 
       if (user) {
         throw new Error('User already exist')

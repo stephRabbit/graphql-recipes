@@ -5,17 +5,17 @@ import App from '../components/App'
 import SignIn from '../components/Auth/SignIn'
 import SignUp from '../components/Auth/SignUp'
 
-const Routes = () => {
+const Root = ({ refetch }) => {
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={App} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" render={() => <SignIn refetch={refetch} />} />
+        <Route path="/signup" render={() => <SignUp refetch={refetch} />} />
         <Redirect to="/" />
       </Switch>
     </Router>
   )
 }
 
-export default Routes
+export default Root
