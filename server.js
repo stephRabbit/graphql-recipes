@@ -53,6 +53,7 @@ app.use(async (req, res, next) => {
       req.currentUser = currentUser
     }
     catch (err) {
+      console.log('JWT TOKEN')
       console.error(err)
     }
   }
