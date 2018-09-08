@@ -16,9 +16,13 @@ const UserRecipes = ({ username, }) => (
       return (
         <div>
           <h3>Your Recipes</h3>
-          <ul>
-            {data.getUserRecipes.map(recipe => <UserRecipesItem key={recipe._id} {...recipe} username={username} />)}
-          </ul>
+          {!data.getUserRecipes.length ? (
+            <p>You have not added any repices.</p>
+          ) : (
+            <ul>
+              {data.getUserRecipes.map(recipe => <UserRecipesItem key={recipe._id} {...recipe} username={username} />)}
+            </ul>
+          )}
         </div>
       )
     }}

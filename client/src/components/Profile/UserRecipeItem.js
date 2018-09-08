@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 
 import { DELETE_USER_RECIPE } from '../../mutations'
-import { GET_USER_RECIPES } from '../../queries'
+import { GET_USER_RECIPES, GET_ALL_RECIPES, GET_CURRENT_USER } from '../../queries'
 
 const handleDeleteUserRecipe = deleteUserRecipe => () => {
   const confirmDelete = window.confirm('Are you sure you want to delete this recipe?')
@@ -43,16 +43,21 @@ const UserRecipeItem = ({ _id, name, likes, username, }) => (
     <p>Likes: {likes}</p>
     <Mutation
       mutation={DELETE_USER_RECIPE}
+      refetchQueries={() => [
+        { query: GET_ALL_RECIPES },
+        { query: GET_CURRENT_USER },
+      ]}
       variables={{ _id, }}
       update={updateCache(username)}
     >
-      {(deleteUserRecipe, { data, loading, error, }) => {
+      {(deleteUserRecipe, attrs = {}) => {
         return (
           <p
             className="delete-button"
             onClick={handleDeleteUserRecipe(deleteUserRecipe)}
           >
-            X
+
+            {attrs.loading ? 'Deleting...' : 'X'}
           </p>
         )
       }}

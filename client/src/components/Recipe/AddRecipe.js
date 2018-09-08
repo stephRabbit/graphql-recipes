@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo'
 import { withRouter } from 'react-router-dom'
 
 import { ADD_RECIPE } from '../../mutations'
-import { GET_ALL_RECIPES } from '../../queries';
+import { GET_ALL_RECIPES, GET_USER_RECIPES, } from '../../queries';
 import Errors from '../Errors'
 import withAuth from '../../hoc/withAuth'
 
@@ -74,15 +74,18 @@ class AddRecipe extends Component {
         <h2>Add Recipe</h2>
         <Mutation
           mutation={ADD_RECIPE}
+          refetchQueries={() => [
+            { query: GET_USER_RECIPES, variables: { username }, },
+          ]}
           variables={{ name, category, description, instructions, username }}
           update={this.updateCache}
         >
           {
-           /**
-            * @param {function} addRecipe - mutate function
-            * @param {object} mutation result containing:
-            * { data, called, loading, error }
-            */
+            /**
+             * @param {function} addRecipe - mutate function
+             * @param {object} mutation result containing:
+             * { data, called, loading, error }
+             */
           }
           {(addRecipe, { data, loading, error, }) => {
             const disabledStatus = loading || this.validateForm()
