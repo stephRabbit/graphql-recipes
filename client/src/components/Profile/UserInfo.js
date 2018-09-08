@@ -8,7 +8,6 @@ const formatDate = date => {
 }
 
 const UserInfo = ({ session }) => {
-  // DEBUG console.log('UserInfo: ', session)
   const { username, email, joinDate, favorites } = session.getCurrentUser
   return (
     <div>

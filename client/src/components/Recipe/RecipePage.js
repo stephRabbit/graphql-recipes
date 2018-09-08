@@ -21,7 +21,6 @@ const RecipePage = ({ match }) => {
         {({ data, loading, error, }) => {
           if (loading) return <div>Loading...</div>
           if (error) return <div>Error</div>
-          console.log('GET_RECIPE ', data)
           const { category, createdDate, description, instructions, name, likes, username, } = data.getRecipe
           return (
             <div className="App">

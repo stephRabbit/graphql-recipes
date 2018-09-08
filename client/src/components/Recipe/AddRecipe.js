@@ -38,7 +38,6 @@ class AddRecipe extends Component {
   handleSubmit = addRecipe => e => {
     e.preventDefault()
     addRecipe().then(async ({ data }) => {
-      console.log('addRecipe ', data)
       this.clearState()
       this.props.history.push('/')
     })
