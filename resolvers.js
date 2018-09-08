@@ -14,9 +14,42 @@ exports.resolvers = {
      * @param {object} - context { ...Model }
      */
     getAllRecipes: async (root, args, { Recipe, }) => {
-      const allRecipes = await Recipe.find()
+      const allRecipes = await Recipe.find().sort({ createdDate: 'desc', })
 
       return allRecipes
+    },
+
+    getRecipe: async (root, { _id, }, { Recipe, }) => {
+      const recipe = await Recipe.findOne({ _id, })
+      return recipe
+    },
+
+    searchRecipes: async (root, { searchTerm, }, { Recipe, }) => {
+      if (searchTerm) {
+        const searchResults = await Recipe.find({
+          // Find according to 'text' search
+          $text: {
+            $search: searchTerm,
+          }
+        }, {
+          // Add new field on Recipe coming back
+          score: { $meta: 'textScore' },
+        })
+        .sort({
+          // Sort by textScore to get the best result
+          score: { $meta: 'textScore' },
+        })
+
+        return searchResults
+      }
+      else {
+        const recipes = await Recipe.find().sort({
+          likes: 'desc',
+          createdDate: 'desc',
+        })
+
+        return recipes
+      }
     },
 
     getCurrentUser: async (root, args, { currentUser, User, }) => {
@@ -31,6 +64,12 @@ exports.resolvers = {
 
       return user
     },
+
+    getUserRecipes: async (root, { username, }, { Recipe, }) => {
+      const userRecipes = await Recipe.find({ username }).sort({ createdDate: 'desc', })
+
+      return userRecipes
+    },
   },
 
   Mutation: {
@@ -44,7 +83,7 @@ exports.resolvers = {
       category,
       description,
       instructions,
-      username
+      username,
     }, { Recipe, }) => {
       const newRecipe = await new Recipe({
         name,
@@ -65,7 +104,7 @@ exports.resolvers = {
      */
     signInUser: async (root, {
       username,
-      password
+      password,
     }, { User, }) => {
       const user = await User.findOne({ username, })
 

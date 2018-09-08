@@ -1,9 +1,13 @@
 import React from 'react'
 
-const Profiile = () => {
+import UserInfo from './UserInfo'
+import UserRecipes from './UserRecipes'
+
+const Profiile = ({ session }) => {
   return (
-    <div>
-      Profile
+    <div className="App">
+      <UserInfo session={session} />
+      <UserRecipes username={session.getCurrentUser.username} />
     </div>
   )
 }

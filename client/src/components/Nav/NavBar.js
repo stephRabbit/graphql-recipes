@@ -7,10 +7,11 @@ const NavBar = ({ session }) => {
   console.log(session && session.getCurrentUser)
   return (
     <nav>
-      {session && session.getCurrentUser
-        ? <NavBarAuth session={session}/>
-        : <NavBarUnAuth />
-      }
+      {session && session.getCurrentUser ? (
+        <NavBarAuth session={session} />
+      ) : (
+        <NavBarUnAuth />
+      )}
     </nav>
   )
 }

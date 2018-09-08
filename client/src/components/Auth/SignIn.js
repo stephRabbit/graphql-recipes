@@ -5,15 +5,15 @@ import { Mutation } from 'react-apollo'
 import { SIGN_IN_USER } from '../../mutations'
 import Errors from '../Errors'
 
-const intialState = {
+const initialState = {
   username: '',
   password: '',
 }
 class SignIn extends Component {
-  state = { ...intialState, }
+  state = { ...initialState, }
 
   clearState = () => {
-    this.setState(() => ({ ...intialState, }))
+    this.setState(() => ({ ...initialState, }))
   }
 
   handleInputChange = e => {

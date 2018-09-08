@@ -46,15 +46,15 @@ app.use(async (req, res, next) => {
   const token = req.headers['authorization']
 
   // Check to make sure token is not a string of null
-  if (token !== 'null') {
+  if (token && token !== 'null') {
     try {
       // Verify token and pass it to GraphQL middleware
+
       const currentUser = await jwt.verify(token, process.env.SECRET)
       req.currentUser = currentUser
     }
     catch (err) {
-      console.log('JWT TOKEN')
-      console.error(err)
+      console.error('JWT TOKEN', err)
     }
   }
 
