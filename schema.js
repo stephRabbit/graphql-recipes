@@ -50,6 +50,10 @@ exports.typeDefs = `
       username: String!
     ): Recipe
 
+    likeRecipe(_id: ID!, username: String!): Recipe
+
+    unlikeRecipe(_id: ID!, username: String!): Recipe
+
     deleteUserRecipe(_id: ID!): Recipe
 
     signInUser(username: String!, password: String!):Token
