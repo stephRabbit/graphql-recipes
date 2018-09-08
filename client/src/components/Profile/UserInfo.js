@@ -8,9 +8,7 @@ const formatDate = date => {
 }
 
 const UserInfo = ({ session }) => {
-  console.log('UserInfo: ', session)
-
-  if (!session ) return <div><h3>Error, Something has wrong! :|</h3></div>
+  // DEBUG console.log('UserInfo: ', session)
   const { username, email, joinDate, favorites } = session.getCurrentUser
   return (
     <div>

@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { ADD_RECIPE } from '../../mutations'
 import { GET_ALL_RECIPES } from '../../queries';
 import Errors from '../Errors'
+import withAuth from '../../hoc/withAuth'
 
 const initialState = {
   name: '',
@@ -137,4 +138,6 @@ class AddRecipe extends Component {
   }
 }
 
-export default withRouter(AddRecipe)
+export default withAuth(session => session && session.getCurrentUser)(
+  withRouter(AddRecipe)
+)

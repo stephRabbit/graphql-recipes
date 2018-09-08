@@ -97,6 +97,11 @@ exports.resolvers = {
       return newRecipe
     },
 
+    deleteUserRecipe: async (root, { _id, }, { Recipe, }) => {
+      const recipe = await Recipe.findOneAndDelete({ _id })
+      return recipe
+    },
+
     /**
      * @param {object} - root { previous object }
      * @param {object} - args { ...args }

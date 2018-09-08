@@ -2,6 +2,7 @@ import React from 'react'
 
 import UserInfo from './UserInfo'
 import UserRecipes from './UserRecipes'
+import withAuth from '../../hoc/withAuth'
 
 const Profiile = ({ session }) => {
   return (
@@ -12,4 +13,4 @@ const Profiile = ({ session }) => {
   )
 }
 
-export default Profiile
+export default withAuth(session => session && session.getCurrentUser)(Profiile)
