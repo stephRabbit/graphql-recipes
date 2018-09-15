@@ -33,6 +33,7 @@ class Search extends Component {
           return (
             <div className="App">
               <input
+                className="search"
                 placeholder="Search recipes..."
                 type="search"
                 onChange={this.handleSearch(client)}

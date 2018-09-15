@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Mutation } from 'react-apollo'
 import { withRouter } from 'react-router-dom'
+import CKEditor from 'react-ckeditor-component'
 
 import { ADD_RECIPE } from '../../mutations'
 import { GET_ALL_RECIPES, GET_USER_RECIPES, } from '../../queries';
@@ -9,15 +10,16 @@ import withAuth from '../../hoc/withAuth'
 
 const initialState = {
   name: '',
+  imageUrl: '',
   category: 'Breakfast',
   description: '',
   instructions: '',
+  username: '',
 }
 
 class AddRecipe extends Component {
   state = {
     ...initialState,
-    username: '',
   }
 
   componentDidMount() {
@@ -35,6 +37,11 @@ class AddRecipe extends Component {
     this.setState(() => ({ [name]: value, }))
   }
 
+  handleEditorChange = e => {
+    const instructions = e.editor.getData()
+    this.setState(() => ({ instructions }))
+  }
+
   handleSubmit = addRecipe => e => {
     e.preventDefault()
     addRecipe().then(async ({ data }) => {
@@ -44,8 +51,8 @@ class AddRecipe extends Component {
   }
 
   validateForm = () => {
-    const { name, category, description, instructions, } = this.state
-    const isInvalid = !name || !category || !description || !instructions
+    const { name, imageUrl, category, description, instructions, } = this.state
+    const isInvalid = !name || !imageUrl ||!category || !description || !instructions
     return isInvalid
   }
 
@@ -67,7 +74,7 @@ class AddRecipe extends Component {
   }
 
   render() {
-    const { name, category, description, instructions, username, } = this.state
+    const { name, imageUrl, category, description, instructions, username, } = this.state
     return (
       <div className="App">
         <h2>Add Recipe</h2>
@@ -76,7 +83,7 @@ class AddRecipe extends Component {
           refetchQueries={() => [
             { query: GET_USER_RECIPES, variables: { username }, },
           ]}
-          variables={{ name, category, description, instructions, username }}
+          variables={{ name, imageUrl, category, description, instructions, username }}
           update={this.updateCache}
         >
           {
@@ -100,6 +107,13 @@ class AddRecipe extends Component {
                   type="text"
                   value={name}
                 />
+                <input
+                  name="imageUrl"
+                  onChange={this.handleInputChange}
+                  placeholder="Recipe image"
+                  type="text"
+                  value={imageUrl}
+                />
                 <select
                   name="category"
                   onChange={this.handleInputChange}
@@ -117,13 +131,20 @@ class AddRecipe extends Component {
                   type="text"
                   value={description}
                 />
-                <textarea
+                {/* <textarea
                   name="instructions"
                   onChange={this.handleInputChange}
                   placeholder="Add instructions..."
                   type="text"
                   value={instructions}
-                ></textarea>
+                ></textarea> */}
+                <label htmlFor="instructions">Add Instructions</label>
+                <CKEditor
+                  name="instructions"
+                  content={instructions}
+                  events={{ change: this.handleEditorChange }}
+                />
+                <br />
                 <button
                   className={disabledStatus ? 'button-primary disabled-button' : 'button-primary'}
                   disabled={disabledStatus}

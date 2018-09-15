@@ -3,6 +3,7 @@ import { Query } from 'react-apollo'
 
 import { GET_USER_RECIPES } from '../../queries'
 import UserRecipesItem from '../../components/Profile/UserRecipeItem'
+import Spinner from '../Spinner'
 
 const UserRecipes = ({ username, }) => (
   <Query
@@ -10,7 +11,7 @@ const UserRecipes = ({ username, }) => (
     variables={{ username }}
   >
     {({ data, loading, error, }) => {
-      if (loading) return <div>Loading...</div>
+      if (loading) return <Spinner />
       if (error) return <div>Error</div>
       return (
         <div>
