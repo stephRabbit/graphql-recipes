@@ -42,7 +42,6 @@ class UserRecipes extends Component {
     e.preventDefault()
 
     updateUserRecipe().then(({ data }) => {
-      console.log(data)
       this.handleCloseModal()
     })
   }
@@ -52,7 +51,6 @@ class UserRecipes extends Component {
       ...recipe,
       modal: true
     }))
-    console.log(recipe)
   }
 
   /**
