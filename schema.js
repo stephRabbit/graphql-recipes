@@ -56,6 +56,14 @@ exports.typeDefs = `
 
     unlikeRecipe(_id: ID!, username: String!): Recipe
 
+    updateUserRecipe(
+      _id: ID!,
+      name: String!,
+      imageUrl: String!,
+      category: String!,
+      description: String!
+    ): Recipe
+
     deleteUserRecipe(_id: ID!): Recipe
 
     signInUser(username: String!, password: String!):Token

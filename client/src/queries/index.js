@@ -21,8 +21,11 @@ export const GET_USER_RECIPES = gql`
   query($username: String!) {
     getUserRecipes(username: $username) {
       _id
-      name
+      category
+      description
+      imageUrl
       likes
+      name
     }
   }
 `
